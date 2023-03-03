@@ -3,31 +3,26 @@ import axios from 'axios';
 import { BASE_URL } from '../../utils/constants';
 
 const initialState = {
-  list: [],
-  currentUser: [],
+  currentUser: null,
   cart: [],
   isLoading: false,
+  formType: 'signup',
+  showForm: false,
 };
 
-// export const getCategories = createAsyncThunk('categories/getCategories', async (_, thunkAPI) => {
-//   try {
-//     const res = await axios(`${BASE_URL}/categories`);
-//     return res.data;
-//   } catch (err) {
-//     console.log(err);
-//     return thunkAPI.rejectWithValue(err);
-//   }
-// });
+export const createUser = createAsyncThunk('users/createUser', async (payload, thunkAPI) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/users`, payload);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return thunkAPI.rejectWithValue(err);
+  }
+});
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    currentUser: null,
-    cart: [],
-    isLoading: false,
-    formType: 'signup',
-    showForm: false,
-  },
+  initialState,
   reducers: {
     addItemToCart: (state, { payload }) => {
       let newCart = [...state.cart];
@@ -43,21 +38,17 @@ const userSlice = createSlice({
 
       state.cart = newCart;
     },
+    toggleForm: (state, { payload }) => {
+      state.showForm = payload;
+    },
   },
   extraReducers: (builder) => {
-    // builder.addCase(getCategories.pending, (state) => {
-    //   state.isLoading = true;
-    // });
-    // builder.addCase(getCategories.fulfilled, (state, action) => {
-    //   state.list = action.payload;
-    //   state.isLoading = false;
-    // });
-    // builder.addCase(getCategories.rejected, (state) => {
-    //   state.isLoading = false;
-    // });
+    builder.addCase(createUser.fulfilled, (state, action) => {
+      state.currentUser = action.payload;
+    });
   },
 });
 
-export const { addItemToCart } = userSlice.actions;
+export const { addItemToCart,toggleForm } = userSlice.actions;
 
 export default userSlice.reducer;
