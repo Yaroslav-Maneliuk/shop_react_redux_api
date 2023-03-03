@@ -1,11 +1,16 @@
 import React from 'react'
-import s from "./Product.module.css"
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../utils/routes';
+import { useDispatch } from 'react-redux';
+import s from "./Product.module.css"
+import { addItemToCart } from '../../features/user/userSlice';
 
 const SIZES = [4, 4.5, 5]
 
-const Product = ({ title, price, images, description }) => {
+const Product = (item) => {
+  const { title, price, images, description } = item
+  const dispatch = useDispatch()
+
   const [currentImage, setCurrentImage] = React.useState()
   const [currentSize, setCurrentSize] = React.useState()
 
@@ -13,6 +18,10 @@ const Product = ({ title, price, images, description }) => {
     if (!images.length) return
     setCurrentImage(images[0])
   }, [images])
+
+  const addToCart = () => {
+    dispatch(addItemToCart(item))
+  }
 
   return (
     <section className={s.product}>
@@ -50,7 +59,7 @@ const Product = ({ title, price, images, description }) => {
 
         <p className={s.description}>{description}</p>
         <div className={s.actions}>
-          <button className={s.add} disabled={!currentSize}>Add to cart</button>
+          <button onClick={addToCart} className={s.add} disabled={!currentSize}>Add to cart</button>
           <button className={s.favourite}>Add to favourites</button>
         </div>
 
