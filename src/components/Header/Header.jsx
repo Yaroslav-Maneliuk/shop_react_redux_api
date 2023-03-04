@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleForm } from '../../features/user/userSlice';
 import LOGO from "../../images/logo.svg"
 import AVATAR from "../../images/avatar.jpg"
+import { useGetProductsQuery } from '../../features/api/apiSlice';
 
 
 
@@ -13,9 +14,14 @@ const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const [searchValue, setSearchValue] = React.useState("")
   const { currentUser } = useSelector(({ user }) => user)
 
   const [values, setValues] = React.useState({ name: "Guest", avatar: AVATAR })
+
+  const { data, isLoading } = useGetProductsQuery({ title: searchValue })
+
+  console.log(data)
 
   React.useEffect(() => {
     if (!currentUser) return
@@ -25,6 +31,10 @@ const Header = () => {
   const handleClick = () => {
     if (!currentUser) dispatch(toggleForm(true))
     else navigate(ROUTES.PROFILE)
+  }
+
+  const handleSearch = ({ target: { value } }) => {
+    setSearchValue(value)
   }
 
   return (
@@ -55,10 +65,33 @@ const Header = () => {
               name="search"
               placeholder='Search for anything'
               autoComplete='off'
-              onChange={() => { }}
-              value="" />
+              onChange={handleSearch}
+              value={searchValue} />
           </div>
-          {false && <div className={s.box}></div>}
+          {searchValue && (
+            <div className={s.box}>
+              {isLoading
+                ? "Loading"
+                : !data.length
+                  ? "No results"
+                  : data.map(({ title, images, id }) => {
+                    return (
+                      <Link
+                        key={id}
+                        onClick={() => setSearchValue("")}
+                        className={s.item}
+                        to={`/products/${id}`}
+                      >
+                        <div
+                          className={s.image}
+                          style={{ backgroundImage: `url(${images[0]})` }}
+                        />
+                        <div className={s.title}>{title}</div>
+                      </Link>
+                    );
+                  })}
+            </div>
+          )}
         </form>
 
         <div className={s.account}>
