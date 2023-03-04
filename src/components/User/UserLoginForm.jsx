@@ -43,7 +43,7 @@ const UserLoginForm = ({ closeForm, toggleCurrentFormType }) => {
             placeholder='Your email'
             type="email"
             name="email"
-            vlaue={values.email}
+            value={values.email}
             autoComplete='off'
             onChange={handleChange}
             required />
@@ -54,7 +54,7 @@ const UserLoginForm = ({ closeForm, toggleCurrentFormType }) => {
             placeholder='Your password'
             type="password"
             name="password"
-            vlaue={values.password}
+            value={values.password}
             autoComplete='off'
             onChange={handleChange}
             required />

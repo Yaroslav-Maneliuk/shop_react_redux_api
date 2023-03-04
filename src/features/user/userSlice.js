@@ -39,6 +39,16 @@ export const loginUser = createAsyncThunk('users/loginUser', async (payload, thu
   }
 });
 
+export const updateUser = createAsyncThunk('users/updateUser', async (payload, thunkAPI) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/users/${payload.id}`, payload);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -67,6 +77,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, addCurrentUser);
     builder.addCase(loginUser.fulfilled, addCurrentUser);
+    builder.addCase(updateUser.fulfilled, addCurrentUser);
   },
 });
 

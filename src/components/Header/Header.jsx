@@ -1,6 +1,6 @@
 import React from 'react'
 import s from "./Header.module.css"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../utils/routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleForm } from '../../features/user/userSlice';
@@ -11,6 +11,8 @@ import AVATAR from "../../images/avatar.jpg"
 
 const Header = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const { currentUser } = useSelector(({ user }) => user)
 
   const [values, setValues] = React.useState({ name: "Guest", avatar: AVATAR })
@@ -22,6 +24,7 @@ const Header = () => {
 
   const handleClick = () => {
     if (!currentUser) dispatch(toggleForm(true))
+    else navigate(ROUTES.PROFILE)
   }
 
   return (

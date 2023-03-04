@@ -45,7 +45,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
             placeholder='Your email'
             type="email"
             name="email"
-            vlaue={values.email}
+            value={values.email}
             autoComplete='off'
             onChange={handleChange}
             required />
@@ -56,7 +56,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
             placeholder='Your name'
             type="name "
             name="name"
-            vlaue={values.name}
+            value={values.name}
             autoComplete='off'
             onChange={handleChange}
             required />
@@ -67,7 +67,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
             placeholder='Your password'
             type="password"
             name="password"
-            vlaue={values.password}
+            value={values.password}
             autoComplete='off'
             onChange={handleChange}
             required />
@@ -78,7 +78,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
             placeholder='Your avatar'
             type="avatar"
             name="avatar"
-            vlaue={values.avatar}
+            value={values.avatar}
             autoComplete='off'
             onChange={handleChange}
             required />
