@@ -13,6 +13,13 @@ const Header = () => {
   const dispatch = useDispatch()
   const { currentUser } = useSelector(({ user }) => user)
 
+  const [values, setValues] = React.useState({ name: "Guest", avatar: AVATAR })
+
+  React.useEffect(() => {
+    if (!currentUser) return
+    setValues(currentUser)
+  }, [currentUser])
+
   const handleClick = () => {
     if (!currentUser) dispatch(toggleForm(true))
   }
@@ -28,9 +35,9 @@ const Header = () => {
         <div className={s.user} onClick={handleClick}>
           <div
             className={s.avatar}
-            style={{ backgroundImage: `url(${AVATAR})` }}
+            style={{ backgroundImage: `url(${values.avatar})` }}
           />
-          <div className={s.username}>Guest</div>
+          <div className={s.username}>{values.name}</div>
         </div>
 
         <form className={s.form}>

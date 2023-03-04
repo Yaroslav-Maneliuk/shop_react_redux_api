@@ -1,15 +1,13 @@
 import React from 'react'
 import s from "./User.module.css"
 import { useDispatch } from 'react-redux';
-import { createUser } from '../../features/user/userSlice';
+import { loginUser } from '../../features/user/userSlice';
 
-const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
+const UserLoginForm = ({ closeForm, toggleCurrentFormType }) => {
   const dispatch = useDispatch()
   const [values, setValues] = React.useState({
-    name: "",
     email: "",
     password: "",
-    avatar: ""
   })
 
   const handleChange = ({ target: { value, name } }) => {
@@ -23,7 +21,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
 
     if (!isNotEmpty) return;
 
-    dispatch(createUser(values));
+    dispatch(loginUser(values));
     closeForm();
   };
 
@@ -36,7 +34,7 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
       </div>
 
       <div className={s.title}>
-        Sign Up
+        Log In
       </div>
 
       <form className={s.form} onSubmit={handleSubmit}>
@@ -53,17 +51,6 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
 
         <div className={s.group}>
           <input
-            placeholder='Your name'
-            type="name "
-            name="name"
-            vlaue={values.name}
-            autoComplete='off'
-            onChange={handleChange}
-            required />
-        </div>
-
-        <div className={s.group}>
-          <input
             placeholder='Your password'
             type="password"
             name="password"
@@ -73,23 +60,12 @@ const UserSignupForm = ({ closeForm,toggleCurrentFormType }) => {
             required />
         </div>
 
-        <div className={s.group}>
-          <input
-            placeholder='Your avatar'
-            type="avatar"
-            name="avatar"
-            vlaue={values.avatar}
-            autoComplete='off'
-            onChange={handleChange}
-            required />
-        </div>
+        <div className={s.link} onClick={() => toggleCurrentFormType("signup")}>Create an account</div>
 
-        <div className={s.link} onClick={()=>toggleCurrentFormType("login")}>I already heave an account</div>
-
-        <button type='submit' className={s.submit}>Create an account</button>
+        <button type='submit' className={s.submit}>Login</button>
       </form>
     </div>
   )
 }
 
-export default UserSignupForm
+export default UserLoginForm
