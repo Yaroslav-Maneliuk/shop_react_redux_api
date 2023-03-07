@@ -15,7 +15,7 @@ const Header = () => {
   const navigate = useNavigate()
 
   const [searchValue, setSearchValue] = React.useState("")
-  const { currentUser } = useSelector(({ user }) => user)
+  const { currentUser, cart } = useSelector(({ user }) => user)
 
   const [values, setValues] = React.useState({ name: "Guest", avatar: AVATAR })
 
@@ -104,7 +104,7 @@ const Header = () => {
             <svg className="icon-cart">
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`} />
             </svg>
-            <span className={s.count}>2</span>
+            {!!cart.length && (<span className={s.count}>{cart.length}</span>)}
           </Link>
         </div>
       </div>
